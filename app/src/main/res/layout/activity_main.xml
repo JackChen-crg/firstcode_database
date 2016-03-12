@@ -42,5 +42,14 @@
         android:layout_marginTop="50dp"
         android:text="删除数据库"
         />
+    <Button
+        android:id="@+id/bt_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_delete"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="查询数据库"
+        />
 
 </RelativeLayout>

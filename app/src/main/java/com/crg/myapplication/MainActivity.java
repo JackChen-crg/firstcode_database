@@ -1,9 +1,11 @@
 package com.crg.myapplication;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,15 +16,52 @@ public class MainActivity extends AppCompatActivity {
     private Button addDataButton;
     private Button updateaButton;
     private Button deleteDbButton;
+    private Button queryDbButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMyDatabaseHelper = new MyDatabaseHelper(this, "BookStore.db", null, 2);
+        mMyDatabaseHelper = new MyDatabaseHelper(this, "BookStore.db", null, 3);
         createDatabase();
         addData();
         updateDatabase();
+        deleteData();
+        queryData();
+
+    }
+
+    //数据库查询
+    private void queryData() {
+        queryDbButton = (Button) findViewById(R.id.bt_query);
+        queryDbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
+
+                //查询book表中的所有数据
+                Cursor cursor = db.query("book", null, null, null, null, null, null);
+                if (cursor.moveToFirst()){
+                    do {
+                        //遍历Cursor对象，取出数据并打印
+                        String name = cursor.getString(cursor.getColumnIndex("name"));
+                        String author = cursor.getString(cursor.getColumnIndex("author"));
+                        int pages = cursor.getInt(cursor.getColumnIndex("pages"));
+                        double price = cursor.getDouble(cursor.getColumnIndex("price"));
+                        Log.d("MainActivity", "name = " + name);
+                        Log.d("MainActivity", "author = " + author);
+                        Log.d("MainActivity", "pages = " + pages);
+                        Log.d("MainActivity", "price = " + price);
+
+
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            }
+        });
+    }
+
+    private void deleteData() {
         deleteDbButton = (Button) findViewById(R.id.bt_delete);
         deleteDbButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 db.delete("book", "pages > ?", new String[]{"500"});
             }
         });
-
     }
 
     /**
