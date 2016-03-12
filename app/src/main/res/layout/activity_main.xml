@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="创建数据库"
         />
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_createdb"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="添加数据"
         />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_addData"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="更新数据库"
         />
     <Button
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_update"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="删除数据库"
         />
     <Button
@@ -48,8 +48,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bt_delete"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="查询数据库"
+        />
+    <Button
+        android:id="@+id/bt_replacedata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bt_query"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="替换数据"
         />
 
 </RelativeLayout>

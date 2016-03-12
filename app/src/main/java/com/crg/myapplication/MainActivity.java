@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Button updateaButton;
     private Button deleteDbButton;
     private Button queryDbButton;
+    private Button replaceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,42 @@ public class MainActivity extends AppCompatActivity {
         updateDatabase();
         deleteData();
         queryData();
+        replaceButton = (Button) findViewById(R.id.bt_replacedata);
+        replaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
+                Toast.makeText(MainActivity.this, "replaceButton", Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", "beginTransaction():delete()");
+                //开启事务
+                db.beginTransaction();
+                try {
+                    db.delete("book", null, null);
+//                    if (true){
+
+                        //这里手动抛出一个异常，让事务失败
+//                        throw  new NullPointerException();
+//                    }
+                    ContentValues values = new ContentValues();
+                    values.put("name", "the inevitable");
+                    values.put("author", "kevin kelly");
+                    values.put("pages", 399);
+                    values.put("price", 58.0);
+                    db.insert("book", null, values);
+
+                    //事务已经执行成功
+                    db.setTransactionSuccessful();
+
+                    Log.d("MainActivity", "db.setTransactionSuccessful");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+
+                    //结束事务
+                    db.endTransaction();
+                }
+            }
+        });
 
     }
 
@@ -41,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //查询book表中的所有数据
                 Cursor cursor = db.query("book", null, null, null, null, null, null);
-                if (cursor.moveToFirst()){
+                if (cursor.moveToFirst()) {
                     do {
                         //遍历Cursor对象，取出数据并打印
                         String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -67,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
-                db.delete("book", "pages > ?", new String[]{"500"});
+                db.delete("book", "pages > ?", new String[]{"300"});
             }
         });
     }
